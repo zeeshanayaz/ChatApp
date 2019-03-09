@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "44758184397",
+    "firebase_url": "https://bootcamp-axiom.firebaseio.com",
+    "project_id": "bootcamp-axiom",
+    "storage_bucket": "bootcamp-axiom.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:44758184397:android:0d765c06f144bf96",
+        "android_client_info": {
+          "package_name": "com.zeeshan.chatapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "44758184397-pvf8t0shcd0csk3o3b2h0lde98oeaof8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAkBWMu6Ui0j1BY2Zb6tK21c-VQRyOH2BQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

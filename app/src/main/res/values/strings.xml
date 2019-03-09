@@ -26,6 +26,9 @@
     <string name="edit_detail_icon">Edit Detail Icon</string>
     <string name="update_bio">Update Bio</string>
     <string name="chat">Chat</string>
+    <string name="splashloginbtn">splashLogInBtn</string>
+    <string name="splashlogoutbtn">splashLogOutBtn</string>
+    <string name="logo">Logo</string>
 
 
 </resources>

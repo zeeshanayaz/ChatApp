@@ -9,4 +9,8 @@
     <color name="colorIcons">#FFFFFF</color>
     <color name="white">#FFFFFF</color>
     <color name="divider">#BDBDBD</color>
+
+    <color name="greenButton">#00c853</color>
+    <color name="redButton">#ff1744</color>
+
 </resources>
