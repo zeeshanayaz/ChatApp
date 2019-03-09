@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">My Chat App</string>
+    <string name="dashboard">Dashboard</string>
+    <string name="registration">Registration</string>
+    <string name="messages">Messages</string>
+
+    <string name="userName">User Name</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="logout">Logout</string>
+    <string name="don_t_have_an_account">Don\'t have an account?</string>
+    <string name="already_have_an_account">Already have an Account!</string>
+    <string name="signout">Signout</string>
+    <string name="setting">Setting</string>
+    <string name="user_profile_image">User Profile Image</string>
+    <string name="update">Update</string>
+    <string name="recent_chat">Recent Chat</string>
+    <string name="users">Users</string>
+    <string name="bio">Bio:</string>
+    <string name="select_photo">Select Photo</string>
+    <string name="send_message_button">Send Message Button</string>
+    <string name="message">message:</string>
+    <string name="sender_message">Sender Message</string>
+    <string name="reciever_message">Reciever Message</string>
+    <string name="edit_detail_icon">Edit Detail Icon</string>
+    <string name="update_bio">Update Bio</string>
+    <string name="chat">Chat</string>
+
+
+</resources>
