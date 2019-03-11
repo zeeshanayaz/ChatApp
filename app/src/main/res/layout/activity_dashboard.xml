@@ -12,6 +12,17 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+        <FrameLayout
+                android:id="@+id/dashboardContainer"
+                android:background="#ffffff"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                tools:ignore="MissingConstraints"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/bottom_nav"/>
 
         <com.zeeshan.chatapp.utilities.CurvedBottomNavigationView
                 android:id="@+id/bottom_nav"
@@ -62,17 +73,7 @@
                 app:vector_src="@drawable/ic_account_circle_white_24dp"
                 />
     </RelativeLayout>
-    <!--<FrameLayout-->
-    <!--android:id="@+id/dashboardContainer"-->
-    <!--android:background="#ffffff"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="0dp"-->
-    <!--tools:ignore="MissingConstraints"-->
-    <!--app:layout_constraintEnd_toEndOf="parent"-->
-    <!--app:layout_constraintStart_toStartOf="parent"-->
-    <!--app:layout_constraintHorizontal_bias="0.0"-->
-    <!--app:layout_constraintTop_toTopOf="parent"-->
-    <!--app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"/>-->
+
 
 
     <!--<android.support.design.widget.BottomNavigationView-->

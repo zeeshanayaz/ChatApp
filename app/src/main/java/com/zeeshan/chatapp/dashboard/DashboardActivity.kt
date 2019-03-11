@@ -1,16 +1,21 @@
 package com.zeeshan.chatapp.dashboard
 
 import android.animation.ValueAnimator
+import android.app.AlertDialog
+import android.content.DialogInterface
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
+import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
+import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
 import com.sdsmdg.harjot.vectormaster.VectorMasterView
 import com.sdsmdg.harjot.vectormaster.models.PathModel
 import com.zeeshan.chatapp.R
+import com.zeeshan.chatapp.registration.MainActivity
 import kotlinx.android.synthetic.main.activity_dashboard.*
 
 class DashboardActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
@@ -24,8 +29,13 @@ class DashboardActivity : AppCompatActivity(), BottomNavigationView.OnNavigation
 
 
         bottom_nav.inflateMenu(R.menu.bottom_navigation)
-        bottom_nav.selectedItemId = R.id.navigation_chats
+        bottom_nav.selectedItemId = R.id.navigation_all_user
         bottom_nav.setOnNavigationItemSelectedListener(this@DashboardActivity)
+
+        supportFragmentManager
+            .beginTransaction()
+            .add(R.id.dashboardContainer, AllUserListFragment())
+            .commit()
 
     }
 
@@ -40,8 +50,7 @@ class DashboardActivity : AppCompatActivity(), BottomNavigationView.OnNavigation
 
                 drawAnimation(fab)
 
-                Toast.makeText(this, "Clicked on Recent Chat", Toast.LENGTH_SHORT).show()
-
+                fragmentTransaction(RecentChatListFragment())
             }
             R.id.navigation_all_user -> {
                 draw(2)
@@ -52,7 +61,8 @@ class DashboardActivity : AppCompatActivity(), BottomNavigationView.OnNavigation
 
                 drawAnimation(fab1)
 
-                Toast.makeText(this, "Clicked on user List", Toast.LENGTH_SHORT).show()
+                fragmentTransaction(AllUserListFragment())
+
             }
             R.id.navigation_profile -> {
                 draw()
@@ -63,10 +73,19 @@ class DashboardActivity : AppCompatActivity(), BottomNavigationView.OnNavigation
 
                 drawAnimation(fab2)
 
-                Toast.makeText(this, "Clicked on Profile", Toast.LENGTH_SHORT).show()
+                fragmentTransaction(ProfileFragment())
+
             }
         }
         return true
+    }
+
+    private fun fragmentTransaction(fragment: Fragment) {
+
+        supportFragmentManager.beginTransaction().apply {
+            replace(R.id.dashboardContainer, fragment)
+            commit()
+        }
     }
 
     private fun drawAnimation(fab: VectorMasterView?) {
@@ -159,4 +178,50 @@ class DashboardActivity : AppCompatActivity(), BottomNavigationView.OnNavigation
         )
 
     }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(R.menu.dashboard_menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+
+        when (item?.itemId) {
+            R.id.menu_sign_out -> {
+                showPopup()
+                return true
+            }
+        }
+
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun showPopup() {
+        val dialogBuilder = AlertDialog.Builder(this@DashboardActivity)
+        val create: AlertDialog = dialogBuilder.create()
+
+        dialogBuilder.setCancelable(false)
+
+        dialogBuilder.setTitle("Signing Out!")
+        dialogBuilder.setMessage("Do you want to Sign out!")
+
+        dialogBuilder.setPositiveButton("Yes", object : DialogInterface.OnClickListener {
+            override fun onClick(dialog: DialogInterface?, which: Int) {
+//                FirebaseAuth.getInstance().signOut()
+                val intent = Intent(this@DashboardActivity, MainActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+        })
+
+        dialogBuilder.setNegativeButton("No", object : DialogInterface.OnClickListener {
+            override fun onClick(dialog: DialogInterface?, which: Int) {
+                create.dismiss()
+            }
+        })
+        dialogBuilder.create()
+        dialogBuilder.show()
+    }
+
 }
