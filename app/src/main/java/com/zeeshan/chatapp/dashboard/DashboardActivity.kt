@@ -12,10 +12,14 @@ import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import com.google.firebase.auth.FirebaseAuth
 import com.sdsmdg.harjot.vectormaster.VectorMasterView
 import com.sdsmdg.harjot.vectormaster.models.PathModel
 import com.zeeshan.chatapp.R
+import com.zeeshan.chatapp.model.User
 import com.zeeshan.chatapp.registration.MainActivity
+import com.zeeshan.chatapp.splashScreen.SplashScreenActivity
+import com.zeeshan.chatapp.utilities.AppPref
 import kotlinx.android.synthetic.main.activity_dashboard.*
 
 class DashboardActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
@@ -38,6 +42,8 @@ class DashboardActivity : AppCompatActivity(), BottomNavigationView.OnNavigation
             .commit()
 
     }
+
+
 
     override fun onNavigationItemSelected(menuItem: MenuItem): Boolean {
         when (menuItem.itemId) {
@@ -208,8 +214,10 @@ class DashboardActivity : AppCompatActivity(), BottomNavigationView.OnNavigation
 
         dialogBuilder.setPositiveButton("Yes", object : DialogInterface.OnClickListener {
             override fun onClick(dialog: DialogInterface?, which: Int) {
-//                FirebaseAuth.getInstance().signOut()
-                val intent = Intent(this@DashboardActivity, MainActivity::class.java)
+                FirebaseAuth.getInstance().signOut()
+                val user = User("", "", "", "", "", "")
+                AppPref(this@DashboardActivity).setUser(user)
+                val intent = Intent(this@DashboardActivity, SplashScreenActivity::class.java)
                 startActivity(intent)
                 finish()
             }

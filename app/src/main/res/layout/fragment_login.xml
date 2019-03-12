@@ -19,7 +19,7 @@
             android:layout_marginEnd="16dp">
 
         <EditText
-                android:id="@+id/textEmailAddress"
+                android:id="@+id/loginTextEmailAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorPrimaryText"
@@ -39,7 +39,7 @@
             android:layout_marginEnd="16dp">
 
         <EditText
-                android:id="@+id/textPassword"
+                android:id="@+id/loginTextPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorPrimaryText"
