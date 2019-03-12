@@ -90,7 +90,7 @@ class LogoutFragment : Fragment() {
 
                 val user = User("${authResult?.user?.uid}", name, email, null, null, null)
                 saveUserDataToFirestore(user)
-                AppPref(activity!!).setUser(user)
+                AppPref(activity!!).setUser(user!!)
 
                 progress.dismiss()
                 navigateToDashboard()
