@@ -1,5 +1,7 @@
 package com.zeeshan.chatapp.model
 
+import java.io.Serializable
+
 data class User(
     var userId: String = "",
     var userName: String = "",
@@ -7,7 +9,7 @@ data class User(
     var userBio: String? = null,
     var profileImageUrl: String? = null,
     var registrationToken: String? = null
-) {
+):Serializable {
     override fun toString(): String {
         return "User(userName='$userName')"
     }

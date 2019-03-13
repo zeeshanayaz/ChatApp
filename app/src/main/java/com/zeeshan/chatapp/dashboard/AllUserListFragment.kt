@@ -2,6 +2,7 @@ package com.zeeshan.chatapp.dashboard
 
 
 import android.content.ContentValues.TAG
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -52,7 +53,11 @@ class AllUserListFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(activity!!)
 
         userViewAdapter = UserListAdapter(activity!!, userList) {
-            Toast.makeText(activity!!, "Clicked ${it.userEmail}", Toast.LENGTH_SHORT).show()
+            val chatIntent = Intent(activity,ChatActivity::class.java).apply {
+                putExtra("user",it)
+            }
+            startActivity(chatIntent)
+            //            Toast.makeText(activity!!, "Clicked ${it.userEmail}", Toast.LENGTH_SHORT).show()
         }
         recyclerView.adapter = userViewAdapter
 
@@ -72,17 +77,22 @@ class AllUserListFragment : Fragment() {
                         DocumentChange.Type.ADDED -> {
                             if (dc.document.id != curUser.userId)
                             {
-                                userList.add(dc.document.toObject(User::class.java)!!)
+                                userList.add(dc.document.toObject(User::class.java))
                                 println(userList)
-                                userViewAdapter.notifyDataSetChanged()
+                                Log.d("UserListFragment",userList.toString())
                             }
 //                            Log.d(TAG, "New city: ${dc.document.data}")
 
                         }
-                        DocumentChange.Type.MODIFIED -> Log.d(TAG, "Modified city: ${dc.document.data}")
-                        DocumentChange.Type.REMOVED -> Log.d(TAG, "Removed city: ${dc.document.data}")
+                        DocumentChange.Type.MODIFIED -> {
+
+                        }
+                        DocumentChange.Type.REMOVED -> {
+
+                        }
                     }
                 }
+                userViewAdapter.notifyDataSetChanged()
 //                querySnapshot?.documents?.forEach {
 //                    if (it.id != curUser.userId) {
 //                        userList.add(it.toObject(User::class.java)!!)

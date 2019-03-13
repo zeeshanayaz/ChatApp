@@ -26,8 +26,10 @@
         </activity>
         <activity
                 android:name=".dashboard.DashboardActivity"
-                android:theme="@style/AppTheme"
-                android:noHistory="false">
+                android:noHistory="false"
+                android:theme="@style/AppTheme">
+        </activity>
+        <activity android:name=".dashboard.ChatActivity">
         </activity>
     </application>
 
