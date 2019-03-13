@@ -32,6 +32,7 @@
     <string name="create_user">Create User</string>
     <string name="profile">Profile</string>
     <string name="empty_list">Empty List</string>
+    <string name="profileFragment">ProfileFragment</string>
 
 
 </resources>

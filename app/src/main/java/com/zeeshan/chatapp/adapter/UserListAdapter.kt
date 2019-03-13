@@ -27,7 +27,7 @@ class UserListAdapter(var context: Context, var dataList: ArrayList<User>, var i
 
     inner class MyViewHolder (var view: View): RecyclerView.ViewHolder(view){
 
-        val userName = view.findViewById<TextView>(R.id.cardUserName)
+        val userName = view.findViewById<TextView>(R.id.profileUserEmail)
         val email = view.findViewById<TextView>(R.id.cardUserEmail)
 
         fun bindUser(user: User){

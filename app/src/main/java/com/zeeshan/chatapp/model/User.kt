@@ -9,9 +9,12 @@ data class User(
     var userBio: String? = null,
     var profileImageUrl: String? = null,
     var registrationToken: String? = null
-):Serializable {
+) : Serializable {
+    //    override fun toString(): String {
+//        return "User(userName='$userName')"
+//    }
     override fun toString(): String {
-        return "User(userName='$userName')"
+        return "User(userId='$userId', userName='$userName', userEmail='$userEmail', userBio=$userBio, profileImageUrl=$profileImageUrl, registrationToken=$registrationToken)"
     }
 
     override fun equals(other: Any?): Boolean {
