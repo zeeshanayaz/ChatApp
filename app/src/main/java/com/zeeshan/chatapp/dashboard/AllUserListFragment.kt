@@ -61,9 +61,13 @@ class AllUserListFragment : Fragment() {
         }
         recyclerView.adapter = userViewAdapter
 
-        fetchDataFromFirestore()
+//        fetchDataFromFirestore()
     }
 
+    override fun onStart() {
+        super.onStart()
+        fetchDataFromFirestore()
+    }
     private fun fetchDataFromFirestore() {
         dbReference.collection("Users")
             .addSnapshotListener(EventListener<QuerySnapshot> { querySnapshot, e ->

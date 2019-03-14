@@ -27,7 +27,8 @@
             android:layout_marginEnd="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             android:hint="@string/message"
-            android:paddingStart="34dp"/>
+            android:paddingStart="34dp"
+            android:paddingEnd="34dp"/>
 
     <ImageButton
             android:layout_width="35dp"
