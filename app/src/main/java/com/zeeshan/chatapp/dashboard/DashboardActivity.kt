@@ -13,6 +13,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.sdsmdg.harjot.vectormaster.VectorMasterView
 import com.sdsmdg.harjot.vectormaster.models.PathModel
 import com.zeeshan.chatapp.R
@@ -214,7 +215,9 @@ class DashboardActivity : AppCompatActivity(), BottomNavigationView.OnNavigation
 
         dialogBuilder.setPositiveButton("Yes", object : DialogInterface.OnClickListener {
             override fun onClick(dialog: DialogInterface?, which: Int) {
-                FirebaseAuth.getInstance().signOut()
+                val curUser = FirebaseAuth.getInstance()
+                FirebaseFirestore.getInstance().collection("Users").document(curUser.currentUser!!.uid).update("registrationToken",null)
+                curUser.signOut()
                 val user = User("", "", "", "", "", "")
                 AppPref(this@DashboardActivity).setUser(user)
                 val intent = Intent(this@DashboardActivity, SplashScreenActivity::class.java)

@@ -29,10 +29,8 @@ import kotlinx.android.synthetic.main.profile_edit_dialog.view.*
  */
 class ProfileFragment : Fragment() {
 
-    //    lateinit var currUser : User
     var selectedPhotoUri: Uri? = null
-//    private lateinit var dbReference: FirebaseFirestore
-
+    lateinit var currUser : User
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,9 +42,7 @@ class ProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val currUser = AppPref(activity!!).getUser()
-
+       currUser = AppPref(activity!!).getUser()!!
         if (currUser != null) {
             setUserDataOnCreate(currUser)
         }
@@ -77,6 +73,7 @@ class ProfileFragment : Fragment() {
 
             editInputDialog.changeProfileDataBtn.setOnClickListener {
                 profileUserBio.setText(editInputDialog.inputProfileUserBio.text.toString())
+                currUser = AppPref(activity!!).getUser()!!
                 val data = User(
                     "${currUser?.userId}",
                     currUser?.userName!!,
@@ -95,6 +92,7 @@ class ProfileFragment : Fragment() {
     private fun setUserDataOnCreate(currUser: User) {
         if (!currUser.userName.isNullOrEmpty()) {
             profileUserNameText!!.text = currUser.userName
+            profileUserNameText.setTextColor(resources.getColor(R.color.colorPrimary))
         } else {
             profileUserNameText.setText(getString(R.string.userName))
             profileUserNameText.setTextColor(resources.getColor(R.color.colorSecondaryText))
@@ -103,6 +101,7 @@ class ProfileFragment : Fragment() {
 
         if (!currUser.userBio.isNullOrEmpty()) {
             profileUserBio.text = currUser.userBio
+            profileUserBio.setTextColor(resources.getColor(R.color.colorPrimary))
         } else {
             profileUserBio.setText("No Bio Added")
 //                    profileBioTxt.text = "  "

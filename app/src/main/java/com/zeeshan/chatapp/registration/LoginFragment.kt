@@ -12,7 +12,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GetTokenResult
+import com.google.firebase.firestore.EventListener
 import com.google.firebase.firestore.FirebaseFirestore
 import com.zeeshan.chatapp.R
 import com.zeeshan.chatapp.dashboard.DashboardActivity
@@ -56,6 +59,7 @@ class LoginFragment : Fragment() {
                 progress.setMessage("Registering user...")
                 progress.setCancelable(false)
                 progress.show()
+//                progressBar.visibility = View.VISIBLE
                 auhenticateUser(loginTextEmailAddress.text.trim().toString(), loginTextPassword.text.trim().toString())
             } else {
                 loginTextEmailAddress.setError("Error")
@@ -75,11 +79,22 @@ class LoginFragment : Fragment() {
     private fun auhenticateUser(email: String, password: String) {
         auth.signInWithEmailAndPassword(email, password)
             .addOnSuccessListener {
-                getUserDataFromFirestore(it.user.uid, dbReference)
+
+                auth.currentUser!!.getIdToken(true).addOnSuccessListener(object : OnSuccessListener<GetTokenResult>{
+                    override fun onSuccess(getTokenResult: GetTokenResult?) {
+                        val tokenId = getTokenResult!!.token
+                        dbReference.collection("Users").document(it.user.uid).update("registrationToken","$tokenId")
+
+                        getUserDataFromFirestore(it.user.uid, dbReference)
+                    }
+
+                })
+
 
             }
             .addOnFailureListener {
                 progress.dismiss()
+//                progressBar.visibility = View.GONE
                 Toast.makeText(activity, "Error in signin ${it.toString()}", Toast.LENGTH_LONG).show()
             }
 
@@ -92,6 +107,7 @@ class LoginFragment : Fragment() {
                 AppPref(activity!!).setUser(user!!)
                 Log.d(TAG, "AppPref successfully written!")
                 progress.dismiss()
+//                progressBar.visibility = View.GONE
                 navigateToDashboard()
             }
         }

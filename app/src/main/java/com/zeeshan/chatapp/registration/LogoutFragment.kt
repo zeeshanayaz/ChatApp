@@ -12,7 +12,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GetTokenResult
 import com.google.firebase.firestore.FirebaseFirestore
 
 import com.zeeshan.chatapp.R
@@ -87,13 +89,22 @@ class LogoutFragment : Fragment() {
         auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener {
             if (it.isSuccessful) {
                 val authResult = it.result
+                auth.currentUser!!.getIdToken(true).addOnSuccessListener(object : OnSuccessListener<GetTokenResult> {
+                    override fun onSuccess(getTokenResult: GetTokenResult?) {
+                        val tokenId = getTokenResult!!.token
 
-                val user = User("${authResult?.user?.uid}", name, email, null, null, null)
-                saveUserDataToFirestore(user)
-                AppPref(activity!!).setUser(user!!)
+                        val user = User("${authResult?.user?.uid}", name, email, null, null, tokenId)
+                        saveUserDataToFirestore(user)
+                        AppPref(activity!!).setUser(user)
 
-                progress.dismiss()
-                navigateToDashboard()
+                        progress.dismiss()
+                        navigateToDashboard()
+                    }
+
+
+                })
+
+
             } else {
                 progress.dismiss()
                 Toast.makeText(activity, "User not created ${it.exception.toString()}", Toast.LENGTH_LONG).show()
