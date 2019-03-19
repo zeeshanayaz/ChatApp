@@ -12,11 +12,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.GetTokenResult
 import com.google.firebase.firestore.FirebaseFirestore
-
+import com.google.firebase.iid.FirebaseInstanceId
 import com.zeeshan.chatapp.R
 import com.zeeshan.chatapp.dashboard.DashboardActivity
 import com.zeeshan.chatapp.model.User
@@ -89,22 +87,15 @@ class LogoutFragment : Fragment() {
         auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener {
             if (it.isSuccessful) {
                 val authResult = it.result
-                auth.currentUser!!.getIdToken(true).addOnSuccessListener(object : OnSuccessListener<GetTokenResult> {
-                    override fun onSuccess(getTokenResult: GetTokenResult?) {
-                        val tokenId = getTokenResult!!.token
 
-                        val user = User("${authResult?.user?.uid}", name, email, null, null, tokenId)
-                        saveUserDataToFirestore(user)
-                        AppPref(activity!!).setUser(user)
+                val tokenId = FirebaseInstanceId.getInstance().getToken();
 
-                        progress.dismiss()
-                        navigateToDashboard()
-                    }
+                val user = User("${authResult?.user?.uid}", name, email, null, null, tokenId)
+                saveUserDataToFirestore(user)
+                AppPref(activity!!).setUser(user)
 
-
-                })
-
-
+                progress.dismiss()
+                navigateToDashboard()
             } else {
                 progress.dismiss()
                 Toast.makeText(activity, "User not created ${it.exception.toString()}", Toast.LENGTH_LONG).show()

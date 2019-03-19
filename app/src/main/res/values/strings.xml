@@ -22,7 +22,7 @@
     <string name="send_message_button">Send Message Button</string>
     <string name="message">message:</string>
     <string name="sender_message">Sender Message</string>
-    <string name="reciever_message">Reciever Message</string>
+    <string name="reciever_message">Receiver Message</string>
     <string name="edit_detail_icon">Edit Detail Icon</string>
     <string name="update_bio">Update Bio</string>
     <string name="chat">Chat</string>
@@ -33,6 +33,7 @@
     <string name="profile">Profile</string>
     <string name="empty_list">Empty List</string>
     <string name="profileFragment">ProfileFragment</string>
+    <string name="default_notification_channel_id">ChapApp_Ch_01</string>
 
 
 </resources>

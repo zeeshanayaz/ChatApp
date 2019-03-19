@@ -17,6 +17,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GetTokenResult
 import com.google.firebase.firestore.EventListener
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.iid.FirebaseInstanceId
 import com.zeeshan.chatapp.R
 import com.zeeshan.chatapp.dashboard.DashboardActivity
 import com.zeeshan.chatapp.model.User
@@ -80,18 +81,14 @@ class LoginFragment : Fragment() {
         auth.signInWithEmailAndPassword(email, password)
             .addOnSuccessListener {
 
-                auth.currentUser!!.getIdToken(true).addOnSuccessListener(object : OnSuccessListener<GetTokenResult>{
-                    override fun onSuccess(getTokenResult: GetTokenResult?) {
-                        val tokenId = getTokenResult!!.token
+
+                        val tokenId = FirebaseInstanceId.getInstance().getToken();
                         dbReference.collection("Users").document(it.user.uid).update("registrationToken","$tokenId")
 
                         getUserDataFromFirestore(it.user.uid, dbReference)
                     }
 
-                })
 
-
-            }
             .addOnFailureListener {
                 progress.dismiss()
 //                progressBar.visibility = View.GONE

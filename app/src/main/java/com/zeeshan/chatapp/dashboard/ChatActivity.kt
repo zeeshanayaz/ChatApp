@@ -52,7 +52,7 @@ class ChatActivity : AppCompatActivity() {
             if (!messageTextField.text.trim().isEmpty()){
                 currUser = AppPref(this@ChatActivity).getUser()!!
 
-                var chatID = user.userId + "-" + currUser?.userId
+                var chatID = user.userId + "-" + currUser.userId
                 val list = chatID.split("-")
                 val sorted = list.sorted()
                 chatID = sorted[0] + "-" + sorted[1]
@@ -64,7 +64,8 @@ class ChatActivity : AppCompatActivity() {
                     messageTextField.text.toString().trim(),
                     System.currentTimeMillis(),
                     msgID,
-                    currUser?.userId!!
+                    currUser.userId,
+                    user.userId
                 )
 
                 dbReference.collection("Chats").document("User-Chat").collection(chatID).document(msgID).set(chatMessage)
@@ -88,7 +89,7 @@ class ChatActivity : AppCompatActivity() {
     private fun recieveMessages() {
         currUser = AppPref(this@ChatActivity).getUser()!!
 
-        var chatID = user.userId + "-" + currUser?.userId
+        var chatID = user.userId + "-" + currUser.userId
         val list = chatID.split("-")
         val sorted = list.sorted()
         chatID = sorted[0] + "-" + sorted[1]

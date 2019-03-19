@@ -5,6 +5,7 @@ class ChatMessage(
     var msg: String = "",
     var timestamp: Long? = null,
     var msgId: String = "",       // particular msg id
-    var senderId: String = ""
+    var senderId: String = "",
+    var receiverId : String = ""
 ) {
 }
