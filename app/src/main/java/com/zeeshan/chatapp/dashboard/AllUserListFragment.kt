@@ -40,34 +40,52 @@ class AllUserListFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_all_user_list, container, false)
 
-        return view
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         dbReference = FirebaseFirestore.getInstance()
         curUser = AppPref(activity!!).getUser()!!
 
-//        Recycler
         val recyclerView = view.findViewById<RecyclerView>(R.id.dashboardAllUserListRecycler)
         recyclerView.layoutManager = LinearLayoutManager(activity!!)
 
         userViewAdapter = UserListAdapter(activity!!, userList) {
             val chatIntent = Intent(activity,ChatActivity::class.java).apply {
-                putExtra("user",it)
+                //                putExtra("user",it)
+                ChatActivity.user = it
             }
             startActivity(chatIntent)
             //            Toast.makeText(activity!!, "Clicked ${it.userEmail}", Toast.LENGTH_SHORT).show()
         }
         recyclerView.adapter = userViewAdapter
+//        fetchDataFromFirestore()
+        return view
+    }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+//        dbReference = FirebaseFirestore.getInstance()
+//        curUser = AppPref(activity!!).getUser()!!
+
+//        Recycler
+//        val recyclerView = view.findViewById<RecyclerView>(R.id.dashboardAllUserListRecycler)
+//        recyclerView.layoutManager = LinearLayoutManager(activity!!)
+//
+//        userViewAdapter = UserListAdapter(activity!!, userList) {
+//            val chatIntent = Intent(activity,ChatActivity::class.java).apply {
+////                putExtra("user",it)
+//                ChatActivity.user = it
+//            }
+//            startActivity(chatIntent)
+//            //            Toast.makeText(activity!!, "Clicked ${it.userEmail}", Toast.LENGTH_SHORT).show()
+//        }
+//        recyclerView.adapter = userViewAdapter
+//
+        fetchDataFromFirestore()
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
 //        fetchDataFromFirestore()
     }
 
-    override fun onStart() {
-        super.onStart()
-        fetchDataFromFirestore()
-    }
     private fun fetchDataFromFirestore() {
         dbReference.collection("Users")
             .addSnapshotListener(EventListener<QuerySnapshot> { querySnapshot, e ->

@@ -19,9 +19,14 @@ import java.util.ArrayList
 
 class ChatActivity : AppCompatActivity() {
 
+    companion object {
+        var user: User? = null
+    }
+
+
     private lateinit var chatAdapter : UserChatListAdapter
     var userChatList: ArrayList<ChatMessage> = ArrayList()
-    lateinit var user: User
+    var user: User? = null
     private lateinit var dbReference: FirebaseFirestore
     lateinit var currUser: User
 
@@ -32,9 +37,10 @@ class ChatActivity : AppCompatActivity() {
 
         dbReference = FirebaseFirestore.getInstance()
 
-        if (intent != null && intent.extras != null){
+        if (intent != null ){
             val extras = intent.extras
-            user = extras.getSerializable("user") as User
+            user = ChatActivity.user
+//            user = extras.getSerializable("user") as User?
 
         }
         else{
@@ -52,7 +58,7 @@ class ChatActivity : AppCompatActivity() {
             if (!messageTextField.text.trim().isEmpty()){
                 currUser = AppPref(this@ChatActivity).getUser()!!
 
-                var chatID = user.userId + "-" + currUser.userId
+                var chatID = user?.userId + "-" + currUser.userId
                 val list = chatID.split("-")
                 val sorted = list.sorted()
                 chatID = sorted[0] + "-" + sorted[1]
@@ -65,7 +71,7 @@ class ChatActivity : AppCompatActivity() {
                     System.currentTimeMillis(),
                     msgID,
                     currUser.userId,
-                    user.userId
+                    user!!.userId
                 )
 
                 dbReference.collection("Chats").document("User-Chat").collection(chatID).document(msgID).set(chatMessage)
@@ -89,7 +95,7 @@ class ChatActivity : AppCompatActivity() {
     private fun recieveMessages() {
         currUser = AppPref(this@ChatActivity).getUser()!!
 
-        var chatID = user.userId + "-" + currUser.userId
+        var chatID = user!!.userId + "-" + currUser.userId
         val list = chatID.split("-")
         val sorted = list.sorted()
         chatID = sorted[0] + "-" + sorted[1]

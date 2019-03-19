@@ -32,7 +32,8 @@ exports.sendNotification = functions.firestore.document('Chats/User-Chat/{chatId
                   title: 'Notification From '+senderName,
                   body: msgBody,
                   icon: "default",
-                  click_action: "in.chatApp.firebasepushnotification.TARGETNOTIFICATION"
+                  click_action: "in.chatApp.firebasepushnotification.TARGETNOTIFICATION",
+                  sound : "default"
                 },
                 data: {
                     message : msgBody,
