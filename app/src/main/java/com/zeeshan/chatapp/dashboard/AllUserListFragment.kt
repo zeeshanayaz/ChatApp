@@ -12,10 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import com.google.firebase.firestore.DocumentChange
-import com.google.firebase.firestore.EventListener
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.QuerySnapshot
+import com.google.firebase.firestore.*
 import com.zeeshan.chatapp.R
 import com.zeeshan.chatapp.adapter.UserListAdapter
 import com.zeeshan.chatapp.model.User
@@ -31,6 +28,7 @@ class AllUserListFragment : Fragment() {
     private lateinit var userViewAdapter: UserListAdapter
     private lateinit var dbReference: FirebaseFirestore
     private lateinit var curUser: User
+    lateinit var userData : ListenerRegistration
 
 
     override fun onCreateView(
@@ -46,16 +44,22 @@ class AllUserListFragment : Fragment() {
         val recyclerView = view.findViewById<RecyclerView>(R.id.dashboardAllUserListRecycler)
         recyclerView.layoutManager = LinearLayoutManager(activity!!)
 
-        userViewAdapter = UserListAdapter(activity!!, userList) {
-            val chatIntent = Intent(activity,ChatActivity::class.java).apply {
-                //                putExtra("user",it)
-                ChatActivity.user = it
+        userViewAdapter = UserListAdapter(activity!!, userList
+            , {
+                val chatIntent = Intent(activity, ChatActivity::class.java).apply {
+                    //                putExtra("user",it)
+                    ChatActivity.user = it
+                }
+                startActivity(chatIntent)
+//                Toast.makeText(activity!!, "Clicked ${it.userEmail}", Toast.LENGTH_SHORT).show()
+                userData.remove()
+            },
+            {
+                Toast.makeText(activity!!, "Long Clicked ${it.userEmail}", Toast.LENGTH_SHORT).show()
             }
-            startActivity(chatIntent)
-            //            Toast.makeText(activity!!, "Clicked ${it.userEmail}", Toast.LENGTH_SHORT).show()
-        }
+        )
         recyclerView.adapter = userViewAdapter
-//        fetchDataFromFirestore()
+        fetchDataFromFirestore()
         return view
     }
 
@@ -78,7 +82,23 @@ class AllUserListFragment : Fragment() {
 //        }
 //        recyclerView.adapter = userViewAdapter
 //
-        fetchDataFromFirestore()
+//        fetchDataFromFirestore()
+    }
+
+    override fun onResume() {
+        super.onResume()
+//        userList.clear()
+//        fetchDataFromFirestore()
+    }
+
+    override fun onPause() {
+        super.onPause()
+    }
+
+    override fun onStart() {
+        super.onStart()
+//        userList.clear()
+//        fetchDataFromFirestore()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -87,7 +107,8 @@ class AllUserListFragment : Fragment() {
     }
 
     private fun fetchDataFromFirestore() {
-        dbReference.collection("Users")
+        userList.clear()
+        userData = dbReference.collection("Users")
             .addSnapshotListener(EventListener<QuerySnapshot> { querySnapshot, e ->
                 if (e != null) {
                     Log.w(TAG, "listen:error", e)
@@ -95,26 +116,27 @@ class AllUserListFragment : Fragment() {
                 }
 
                 for (dc in querySnapshot!!.documentChanges) {
-                    when (dc.type) {
-                        DocumentChange.Type.ADDED -> {
-                            if (dc.document.id != curUser.userId)
-                            {
-                                userList.add(dc.document.toObject(User::class.java))
-                                println(userList)
-                                Log.d("UserListFragment",userList.toString())
-                            }
+                when (dc.type) {
+                    DocumentChange.Type.ADDED -> {
+                        if (dc.document.id != curUser.userId) {
+                            userList.add(dc.document.toObject(User::class.java))
+                            println(userList)
+                            Log.d("UserListFragment", userList.toString())
+
+                            userViewAdapter.notifyDataSetChanged()
+                        }
 //                            Log.d(TAG, "New city: ${dc.document.data}")
 
-                        }
-                        DocumentChange.Type.MODIFIED -> {
+                    }
+                    DocumentChange.Type.MODIFIED -> {
 
-                        }
-                        DocumentChange.Type.REMOVED -> {
+                    }
+                    DocumentChange.Type.REMOVED -> {
 
-                        }
                     }
                 }
-                userViewAdapter.notifyDataSetChanged()
+            }
+
 //                querySnapshot?.documents?.forEach {
 //                    if (it.id != curUser.userId) {
 //                        userList.add(it.toObject(User::class.java)!!)
@@ -139,6 +161,6 @@ class AllUserListFragment : Fragment() {
         super.onStop()
         Log.v("UserFragment", "User List Fragment on Stop ")
 //        making Array List null
-        userList.clear()
+//        userList.clear()
     }
 }

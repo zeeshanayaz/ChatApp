@@ -57,7 +57,9 @@ class LoginFragment : Fragment() {
 
             if (!loginTextEmailAddress.text.trim().isNullOrEmpty() && !loginTextPassword.text.trim().isNullOrEmpty()) {
                 Snackbar.make(view, "Connecting to Server", Snackbar.LENGTH_SHORT).setAction("Action", null).show()
-                progress.setMessage("Registering user...")
+
+                progress.setTitle("Signing In")
+                progress.setMessage("Please Wait...")
                 progress.setCancelable(false)
                 progress.show()
 //                progressBar.visibility = View.VISIBLE

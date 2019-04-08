@@ -59,7 +59,8 @@ class LogoutFragment : Fragment() {
 
             if (!createTextUserName.text.isNullOrEmpty() && !createTextEmailAddress.text.isNullOrEmpty() && !createTextPassword.text.isNullOrEmpty()) {
                 Snackbar.make(view, "Connecting to Server", Snackbar.LENGTH_SHORT).setAction("Action", null).show()
-                progress.setMessage("Registering user...")
+                progress.setTitle("Creating New Account")
+                progress.setMessage("Please wait, while we are creating new account for you...")
                 progress.setCancelable(false)
                 progress.show()
                 registerUser(

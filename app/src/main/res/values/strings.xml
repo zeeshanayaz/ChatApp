@@ -34,6 +34,10 @@
     <string name="empty_list">Empty List</string>
     <string name="profileFragment">ProfileFragment</string>
     <string name="default_notification_channel_id">ChapApp_Ch_01</string>
+    <string name="forget_password">Forget Password ?</string>
+    <string name="settings">Settings</string>
+    <string name="create_group">Create Group</string>
+    <string name="find_friends">Find Friends</string>
 
 
 </resources>

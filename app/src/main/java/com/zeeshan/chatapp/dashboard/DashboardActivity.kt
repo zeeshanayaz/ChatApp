@@ -21,6 +21,7 @@ import com.zeeshan.chatapp.model.User
 import com.zeeshan.chatapp.registration.MainActivity
 import com.zeeshan.chatapp.splashScreen.SplashScreenActivity
 import com.zeeshan.chatapp.utilities.AppPref
+import com.zeeshan.chatapp.utilities.EXTRA_MESSAGE
 import kotlinx.android.synthetic.main.activity_dashboard.*
 
 class DashboardActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
@@ -197,6 +198,20 @@ class DashboardActivity : AppCompatActivity(), BottomNavigationView.OnNavigation
         when (item?.itemId) {
             R.id.menu_sign_out -> {
                 showPopup()
+                return true
+            }
+            R.id.menu_find_friends -> {
+                return true
+            }
+            R.id.menu_create_group -> {
+                return true
+            }
+            R.id.menu_settings -> {
+                val intent = Intent(this, MenuActivity::class.java).apply {
+                    putExtra(EXTRA_MESSAGE, "ProfileFragment()")
+                }
+                startActivity(intent)
+//                fragmentTransaction(ProfileFragment())
                 return true
             }
         }
