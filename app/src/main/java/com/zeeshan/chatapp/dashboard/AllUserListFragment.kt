@@ -28,7 +28,7 @@ class AllUserListFragment : Fragment() {
     private lateinit var userViewAdapter: UserListAdapter
     private lateinit var dbReference: FirebaseFirestore
     private lateinit var curUser: User
-    lateinit var userData : ListenerRegistration
+    lateinit var userData: ListenerRegistration
 
 
     override fun onCreateView(
@@ -116,44 +116,25 @@ class AllUserListFragment : Fragment() {
                 }
 
                 for (dc in querySnapshot!!.documentChanges) {
-                when (dc.type) {
-                    DocumentChange.Type.ADDED -> {
-                        if (dc.document.id != curUser.userId) {
-                            userList.add(dc.document.toObject(User::class.java))
-                            println(userList)
-                            Log.d("UserListFragment", userList.toString())
+                    when (dc.type) {
+                        DocumentChange.Type.ADDED -> {
+                            if (dc.document.id != curUser.userId) {
+                                userList.add(dc.document.toObject(User::class.java))
+                                println(userList)
+                                Log.d("UserListFragment", userList.toString())
 
-                            userViewAdapter.notifyDataSetChanged()
+                                userViewAdapter.notifyDataSetChanged()
+                            }
+
                         }
-//                            Log.d(TAG, "New city: ${dc.document.data}")
+                        DocumentChange.Type.MODIFIED -> {
 
-                    }
-                    DocumentChange.Type.MODIFIED -> {
+                        }
+                        DocumentChange.Type.REMOVED -> {
 
-                    }
-                    DocumentChange.Type.REMOVED -> {
-
+                        }
                     }
                 }
-            }
-
-//                querySnapshot?.documents?.forEach {
-//                    if (it.id != curUser.userId) {
-//                        userList.add(it.toObject(User::class.java)!!)
-//                        println(userList)
-//                        userViewAdapter.notifyDataSetChanged()
-////                        if (userListEmptyCheck.visibility == View.VISIBLE) userListEmptyCheck.visibility = View.GONE
-//                    }
-//                }
-//                for (eachUser in snapshots!!){
-//                    if (eachUser != null)
-//                    {
-//                        println(eachUser.toObject(User::class.java))
-//                        userList.add(eachUser.toObject(User::class.java))
-//                        userViewAdapter.notifyDataSetChanged()
-//                    }
-//                }
-
             })
     }
 

@@ -2,6 +2,7 @@ package com.zeeshan.chatapp.dashboard
 
 import android.animation.ValueAnimator
 import android.app.AlertDialog
+import android.content.ContentValues
 import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
@@ -9,9 +10,13 @@ import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
+import android.text.TextUtils
+import android.util.Log
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.sdsmdg.harjot.vectormaster.VectorMasterView
@@ -23,24 +28,29 @@ import com.zeeshan.chatapp.splashScreen.SplashScreenActivity
 import com.zeeshan.chatapp.utilities.AppPref
 import com.zeeshan.chatapp.utilities.EXTRA_MESSAGE
 import kotlinx.android.synthetic.main.activity_dashboard.*
+import kotlinx.android.synthetic.main.create_group_dialog.view.*
 
 class DashboardActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
 
 
     internal lateinit var outline: PathModel
+    private lateinit var dbReference: FirebaseFirestore
+    private lateinit var curUser: User
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dashboard)
 
+        dbReference = FirebaseFirestore.getInstance()
+        curUser = AppPref(this@DashboardActivity).getUser()!!
 
         bottom_nav.inflateMenu(R.menu.bottom_navigation)
-        bottom_nav.selectedItemId = R.id.navigation_all_user
+        bottom_nav.selectedItemId = R.id.navigation_chats
         bottom_nav.setOnNavigationItemSelectedListener(this@DashboardActivity)
 
         supportFragmentManager
             .beginTransaction()
-            .add(R.id.dashboardContainer, AllUserListFragment())
+            .add(R.id.dashboardContainer, RecentChatListFragment())
             .commit()
 
     }
@@ -49,7 +59,7 @@ class DashboardActivity : AppCompatActivity(), BottomNavigationView.OnNavigation
 
     override fun onNavigationItemSelected(menuItem: MenuItem): Boolean {
         when (menuItem.itemId) {
-            R.id.navigation_chats -> {
+            R.id.navigation_group -> {
                 draw(6)
                 lin_id.x = bottom_nav.mFirstCurveControlPoint1.x.toFloat()
                 fab.visibility = View.VISIBLE
@@ -58,9 +68,9 @@ class DashboardActivity : AppCompatActivity(), BottomNavigationView.OnNavigation
 
                 drawAnimation(fab)
 
-                fragmentTransaction(RecentChatListFragment())
+                fragmentTransaction(GroupListFragment())
             }
-            R.id.navigation_all_user -> {
+            R.id.navigation_chats -> {
                 draw(2)
                 lin_id.x = bottom_nav.mFirstCurveControlPoint1.x.toFloat()
                 fab.visibility = View.GONE
@@ -69,10 +79,10 @@ class DashboardActivity : AppCompatActivity(), BottomNavigationView.OnNavigation
 
                 drawAnimation(fab1)
 
-                fragmentTransaction(AllUserListFragment())
+                fragmentTransaction(RecentChatListFragment())
 
             }
-            R.id.navigation_profile -> {
+            R.id.navigation_contacts -> {
                 draw()
                 lin_id.x = bottom_nav.mFirstCurveControlPoint1.x.toFloat()
                 fab.visibility = View.GONE
@@ -81,8 +91,7 @@ class DashboardActivity : AppCompatActivity(), BottomNavigationView.OnNavigation
 
                 drawAnimation(fab2)
 
-                fragmentTransaction(ProfileFragment())
-
+                fragmentTransaction(AllUserListFragment())
             }
         }
         return true
@@ -204,6 +213,7 @@ class DashboardActivity : AppCompatActivity(), BottomNavigationView.OnNavigation
                 return true
             }
             R.id.menu_create_group -> {
+                createGroupAlert()
                 return true
             }
             R.id.menu_settings -> {
@@ -218,6 +228,45 @@ class DashboardActivity : AppCompatActivity(), BottomNavigationView.OnNavigation
 
         return super.onOptionsItemSelected(item)
     }
+
+    private fun createGroupAlert() {
+        val groupDialog = LayoutInflater.from(this@DashboardActivity).inflate(R.layout.create_group_dialog, null)
+        val dialogBuilder = AlertDialog.Builder(this@DashboardActivity)
+            .setView(groupDialog)
+            .setTitle("Create New Group")
+            .show()
+
+        groupDialog.createGroupBtn.setOnClickListener{
+            var groupName = groupDialog.inputCreateGroup.text.toString()
+            if (TextUtils.isEmpty(groupName)){
+                Toast.makeText(this@DashboardActivity,"Please write group name....", Toast.LENGTH_SHORT).show()
+            }
+            else{
+                createNewGroup(groupName, dialogBuilder)
+
+            }
+        }
+    }
+
+    private fun createNewGroup(groupName: String, dialogBuilder: AlertDialog) {
+
+        val groupData = HashMap<String, Any?>()
+        groupData["groupId"] = "${curUser.userId}-$groupName"
+        groupData["groupName"] = groupName
+        groupData["groupAdminId"] = curUser.userId
+        groupData["groupMember"] = arrayListOf(curUser.userId)
+
+        dbReference.collection("Groups").document(groupName).set(groupData)
+            .addOnSuccessListener {
+                Log.d(ContentValues.TAG, "DocumentSnapshot successfully written! Group Created")
+                Toast.makeText(this@DashboardActivity,"Successfully created the group $groupName", Toast.LENGTH_SHORT).show()
+            }
+            .addOnFailureListener {
+                Log.w(ContentValues.TAG, "Error writing document", it)
+            }
+        dialogBuilder.dismiss()
+    }
+
 
     private fun showPopup() {
         val dialogBuilder = AlertDialog.Builder(this@DashboardActivity)
