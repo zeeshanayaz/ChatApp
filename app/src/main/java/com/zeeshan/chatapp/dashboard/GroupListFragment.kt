@@ -2,6 +2,7 @@ package com.zeeshan.chatapp.dashboard
 
 
 import android.content.ContentValues
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -15,6 +16,7 @@ import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.EventListener
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
+import com.zeeshan.chatapp.GroupChatActivity
 import com.zeeshan.chatapp.R
 import com.zeeshan.chatapp.adapter.GroupListAdapter
 import com.zeeshan.chatapp.model.GroupChat
@@ -43,12 +45,12 @@ class GroupListFragment : Fragment() {
 
         groupViewAdapter = GroupListAdapter(activity!!, groupList
             , {
-                //                val chatIntent = Intent(activity, ChatActivity::class.java).apply {
-//                    //                putExtra("user",it)
-//                    ChatActivity.user = it
-//                }
-//                startActivity(chatIntent)
-                Toast.makeText(activity!!, "Clicked ${it.groupName}", Toast.LENGTH_SHORT).show()
+                val chatIntent = Intent(activity, GroupChatActivity::class.java).apply {
+//                putExtra("user",it)
+                    GroupChatActivity.groupChat = it
+                }
+                startActivity(chatIntent)
+//                Toast.makeText(activity!!, "Clicked ${it.groupName}", Toast.LENGTH_SHORT).show()
             },
             {
                 Toast.makeText(activity!!, "Long Clicked ${it.groupName}", Toast.LENGTH_SHORT).show()

@@ -1,23 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--<android.support.constraint.ConstraintLayout-->
-        <!--xmlns:android="http://schemas.android.com/apk/res/android"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--xmlns:tools="http://schemas.android.com/tools"-->
-        <!--xmlns:app="http://schemas.android.com/apk/res-auto">-->
-    <!---->
-<!--</android.support.constraint.ConstraintLayout>-->
-
 <android.support.v7.widget.CardView
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" xmlns:tools="http://schemas.android.com/tools"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginEnd="8dp"
         app:cardElevation="6dp"
         app:cardUseCompatPadding="true"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" xmlns:android="http://schemas.android.com/apk/res/android">
+        app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent">
 
     <RelativeLayout
             android:layout_width="match_parent"
@@ -33,6 +24,18 @@
                 app:civ_border_color="@color/colorPrimary"
                 android:layout_margin="10dp"
         />
+
+        <ImageView
+                android:id="@+id/profileSelectIcon"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_check_select"
+                android:layout_alignStart="@id/profileImageImageView"
+                android:layout_alignBottom="@id/profileImageImageView"
+                android:contentDescription="@string/select_icon"
+                android:layout_marginBottom="-8dp"
+                android:layout_marginStart="-5dp"
+                android:visibility="gone"/>
 
         <LinearLayout
                 android:layout_width="match_parent"

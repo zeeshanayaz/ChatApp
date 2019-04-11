@@ -46,5 +46,6 @@
     <string name="add_member">Add Member</string>
     <string name="exit_group">Exit Group</string>
     <string name="beta_version">The App is in beta version</string>
+    <string name="select_icon">Select Icon</string>
 
 </resources>
