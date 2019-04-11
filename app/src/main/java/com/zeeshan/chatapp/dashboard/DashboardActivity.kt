@@ -250,13 +250,15 @@ class DashboardActivity : AppCompatActivity(), BottomNavigationView.OnNavigation
 
     private fun createNewGroup(groupName: String, dialogBuilder: AlertDialog) {
 
-        val groupData = HashMap<String, Any?>()
-        groupData["groupId"] = "${curUser.userId}-$groupName"
-        groupData["groupName"] = groupName
-        groupData["groupAdminId"] = curUser.userId
-        groupData["groupMember"] = arrayListOf(curUser.userId)
+        val groupTitle = "${groupName.trim()}-${curUser.userId}-${System.currentTimeMillis()}"
 
-        dbReference.collection("Groups").document(groupName).set(groupData)
+        val groupData = HashMap<String, Any?>()
+            groupData["groupId"] = groupTitle
+            groupData["groupName"] = groupName
+            groupData["groupAdminId"] = curUser.userId
+            groupData["groupMember"] = arrayListOf(curUser.userId)
+
+        dbReference.collection("Groups").document(groupTitle).set(groupData)
             .addOnSuccessListener {
                 Log.d(ContentValues.TAG, "DocumentSnapshot successfully written! Group Created")
                 Toast.makeText(this@DashboardActivity,"Successfully created the group $groupName", Toast.LENGTH_SHORT).show()

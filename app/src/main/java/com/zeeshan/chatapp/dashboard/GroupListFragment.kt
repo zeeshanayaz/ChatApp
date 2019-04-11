@@ -36,7 +36,7 @@ class GroupListFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_group_list, container, false)
-
+        groupList.clear()
         dbReference = FirebaseFirestore.getInstance()
         curUser = AppPref(activity!!).getUser()!!
 
@@ -72,7 +72,11 @@ class GroupListFragment : Fragment() {
                 for (dc in querySnapshot!!.documentChanges) {
                     when (dc.type) {
                         DocumentChange.Type.ADDED -> {
-                            groupList.add(dc.document.toObject(GroupChat::class.java))
+                            val groupData = dc.document.toObject(GroupChat::class.java)
+                            if (groupData.groupMember!!.contains(curUser.userId)){
+                                groupList.add(groupData)
+                            }
+//                            groupList.add(dc.document.toObject(GroupChat::class.java))
 //                            println(groupList)
                             Log.d("GroupListFragment", groupList.toString())
 
