@@ -38,7 +38,7 @@ class ChatActivity : AppCompatActivity() {
         dbReference = FirebaseFirestore.getInstance()
 
         if (intent != null ){
-            val extras = intent.extras
+//            val extras = intent.extras
             user = ChatActivity.user
 //            user = extras.getSerializable("user") as User?
 

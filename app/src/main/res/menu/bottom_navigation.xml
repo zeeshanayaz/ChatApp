@@ -2,20 +2,20 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+            android:id="@+id/navigation_group"
+            android:icon="@drawable/ic_view_list_white_24dp"
+            app:showAsAction="ifRoom"
+            android:title="@string/group"/>
+
+    <item
             android:id="@+id/navigation_chats"
             android:icon="@drawable/ic_chat_white_24dp"
             app:showAsAction="ifRoom"
             android:title="@string/recent_chat"/>
 
     <item
-            android:id="@+id/navigation_all_user"
-            android:icon="@drawable/ic_view_list_white_24dp"
-            app:showAsAction="ifRoom"
-            android:title="@string/users"/>
-
-    <item
-            android:id="@+id/navigation_profile"
+            android:id="@+id/navigation_contacts"
             android:icon="@drawable/ic_account_circle_white_24dp"
             app:showAsAction="ifRoom"
-            android:title="@string/profile"/>
+            android:title="@string/contacts"/>
 </menu>
